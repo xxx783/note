@@ -16,10 +16,6 @@
 !.idea/
 !.idea/**
 
-# Gradle 缓存
-!.gradle/
-!.gradle/**
-
 # Android app 模块
 !app/
 !app/**
