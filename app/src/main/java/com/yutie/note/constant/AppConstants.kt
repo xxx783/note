@@ -39,6 +39,7 @@ object AppConstants {
     const val ENCRYPT_ALGORITHM = "AES"
     const val ENCRYPT_KEY_LENGTH = 16
     const val PASSWORD_MIN_LENGTH = 6
+    const val PASSWORD_SALT = "yutie_note_salt_2024"
     
     // 文件相关
     const val FILE_ENCODING = "UTF-8"

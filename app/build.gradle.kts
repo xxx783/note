@@ -112,8 +112,12 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
     
+    // Security Crypto - 用于加密 SharedPreferences
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    
     // OkHttp - 用于网络请求
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     
     // Markwon - Markdown 渲染
     implementation("io.noties.markwon:core:4.6.2")

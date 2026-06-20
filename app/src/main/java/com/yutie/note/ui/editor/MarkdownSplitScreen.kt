@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +14,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,23 +32,38 @@ fun MarkdownSplitScreen(
     content: String,
     onTitleChange: (String) -> Unit,
     onContentChange: (String) -> Unit,
+    onCursorPositionChange: (Int) -> Unit,
     isProUser: Boolean = true
 ) {
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(content)) }
+
+    LaunchedEffect(content) {
+        if (textFieldValue.text != content) {
+            textFieldValue = TextFieldValue(content, textFieldValue.selection)
+        }
+    }
+
+    val handleContentChange = { newTextFieldValue: TextFieldValue ->
+        textFieldValue = newTextFieldValue
+        onContentChange(newTextFieldValue.text)
+        onCursorPositionChange(newTextFieldValue.selection.start)
+    }
+
     when (viewMode) {
         ViewMode.EDIT_ONLY -> {
             EditOnlyMode(
                 title = title,
-                content = content,
+                textFieldValue = textFieldValue,
                 onTitleChange = onTitleChange,
-                onContentChange = onContentChange
+                onContentChange = handleContentChange
             )
         }
         ViewMode.SPLIT -> {
             SplitMode(
                 title = title,
-                content = content,
+                textFieldValue = textFieldValue,
                 onTitleChange = onTitleChange,
-                onContentChange = onContentChange,
+                onContentChange = handleContentChange,
                 isProUser = isProUser
             )
         }
@@ -57,9 +76,9 @@ fun MarkdownSplitScreen(
 @Composable
 fun EditOnlyMode(
     title: String,
-    content: String,
+    textFieldValue: TextFieldValue,
     onTitleChange: (String) -> Unit,
-    onContentChange: (String) -> Unit
+    onContentChange: (TextFieldValue) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         BasicTextField(
@@ -93,7 +112,7 @@ fun EditOnlyMode(
         )
 
         BasicTextField(
-            value = content,
+            value = textFieldValue,
             onValueChange = onContentChange,
             modifier = Modifier
                 .fillMaxSize()
@@ -106,7 +125,7 @@ fun EditOnlyMode(
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             decorationBox = { innerTextField ->
                 Box(modifier = Modifier.fillMaxSize()) {
-                    if (content.isEmpty()) {
+                    if (textFieldValue.text.isEmpty()) {
                         Text(
                             text = "输入内容...",
                             style = TextStyle(
@@ -119,6 +138,8 @@ fun EditOnlyMode(
                     innerTextField()
                 }
             },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default),
+            keyboardActions = KeyboardActions(onAny = { /* Handle action */ }),
             maxLines = Int.MAX_VALUE
         )
     }
@@ -127,9 +148,9 @@ fun EditOnlyMode(
 @Composable
 fun SplitMode(
     title: String,
-    content: String,
+    textFieldValue: TextFieldValue,
     onTitleChange: (String) -> Unit,
-    onContentChange: (String) -> Unit,
+    onContentChange: (TextFieldValue) -> Unit,
     isProUser: Boolean
 ) {
     Row(modifier = Modifier.fillMaxSize()) {
@@ -172,7 +193,7 @@ fun SplitMode(
             Divider(modifier = Modifier.fillMaxWidth())
 
             BasicTextField(
-                value = content,
+                value = textFieldValue,
                 onValueChange = onContentChange,
                 modifier = Modifier
                     .fillMaxSize()
@@ -185,7 +206,7 @@ fun SplitMode(
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 decorationBox = { innerTextField ->
                     Box(modifier = Modifier.fillMaxSize()) {
-                        if (content.isEmpty()) {
+                        if (textFieldValue.text.isEmpty()) {
                             Text(
                                 text = "输入 Markdown...",
                                 style = TextStyle(
@@ -198,6 +219,8 @@ fun SplitMode(
                         innerTextField()
                     }
                 },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default),
+                keyboardActions = KeyboardActions(onAny = { /* Handle action */ }),
                 maxLines = Int.MAX_VALUE
             )
         }
@@ -223,7 +246,7 @@ fun SplitMode(
             Divider(modifier = Modifier.fillMaxWidth())
 
             Box(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-                MarkdownPreviewPanel(content = content)
+                MarkdownPreviewPanel(content = textFieldValue.text)
             }
         }
     }

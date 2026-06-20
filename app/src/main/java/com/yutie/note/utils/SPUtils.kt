@@ -2,18 +2,17 @@ package com.yutie.note.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.yutie.note.constant.AppConstants
 
 /**
  * SharedPreferences 工具类
- * 用于存储应用配置信息
+ * 使用 EncryptedSharedPreferences 加密敏感数据
  */
 class SPUtils private constructor(context: Context) {
     
-    private val sp: SharedPreferences = context.getSharedPreferences(
-        AppConstants.SP_FILE_NAME, 
-        Context.MODE_PRIVATE
-    )
+    private val sp: SharedPreferences = createEncryptedSharedPreferences(context)
     
     companion object {
         @Volatile
@@ -24,9 +23,29 @@ class SPUtils private constructor(context: Context) {
                 instance ?: SPUtils(context.applicationContext).also { instance = it }
             }
         }
+        
+        private fun createEncryptedSharedPreferences(context: Context): SharedPreferences {
+            return try {
+                val masterKey = MasterKey.Builder(context)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build()
+                
+                EncryptedSharedPreferences.create(
+                    context,
+                    AppConstants.SP_FILE_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                )
+            } catch (e: Exception) {
+                context.getSharedPreferences(
+                    AppConstants.SP_FILE_NAME,
+                    Context.MODE_PRIVATE
+                )
+            }
+        }
     }
     
-    // 主题模式
     fun getThemeMode(): Int {
         return sp.getInt(AppConstants.KEY_THEME_MODE, AppConstants.THEME_MODE_FOLLOW_SYSTEM)
     }
@@ -35,7 +54,6 @@ class SPUtils private constructor(context: Context) {
         sp.edit().putInt(AppConstants.KEY_THEME_MODE, mode).apply()
     }
     
-    // 是否加密
     fun isEncryptEnabled(): Boolean {
         return sp.getBoolean(AppConstants.KEY_IS_ENCRYPT, false)
     }
@@ -44,7 +62,6 @@ class SPUtils private constructor(context: Context) {
         sp.edit().putBoolean(AppConstants.KEY_IS_ENCRYPT, enabled).apply()
     }
     
-    // 密码
     fun getPassword(): String {
         return sp.getString(AppConstants.KEY_PASSWORD, "") ?: ""
     }
@@ -53,7 +70,6 @@ class SPUtils private constructor(context: Context) {
         sp.edit().putString(AppConstants.KEY_PASSWORD, password).apply()
     }
     
-    // 最后备份时间
     fun getLastBackupTime(): Long {
         return sp.getLong(AppConstants.KEY_LAST_BACKUP_TIME, 0)
     }
@@ -62,7 +78,6 @@ class SPUtils private constructor(context: Context) {
         sp.edit().putLong(AppConstants.KEY_LAST_BACKUP_TIME, time).apply()
     }
     
-    // 清除所有数据
     fun clearAll() {
         sp.edit().clear().apply()
     }

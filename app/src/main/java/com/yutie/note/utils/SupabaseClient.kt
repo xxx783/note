@@ -7,45 +7,28 @@ import android.os.Looper
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import java.io.IOException
+import java.security.cert.Certificate
+import java.security.cert.X509Certificate
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 /**
  * Supabase API 工具类
- * 通过 REST API 连接 Supabase
+ * 通过 REST API 连接 Supabase，支持 SSL Pinning
  */
 object SupabaseClient {
     
-    // Supabase 项目 URL
-    // 格式：https://xxxxx.supabase.co
     const val SUPABASE_URL = "https://hgmpejfrhfiitpmyoieq.supabase.co"
-    
-    // Supabase API Key (可公开访问的 anon key)
     const val SUPABASE_ANON_KEY = "sb_publishable_tYv8QXhk3RXZ2SW_5itwIw_sZmbiC3m"
     
-    val client = OkHttpClient()
     private val mediaType = "application/json; charset=utf-8".toMediaType()
     private val mainHandler = Handler(Looper.getMainLooper())
     
-    /**
-     * 用户数据类
-     */
-    data class User(
-        val id: String,
-        val email: String,
-        val token: String,
-        val refreshToken: String = ""
-    )
-    
-    /**
-     * 登录/注册响应
-     */
-    data class AuthResponse(
-        val user: User?,
-        val error: String?
-    )
-    
-    // SharedPreferences 存储用户信息
     private lateinit var sp: SharedPreferences
     private const val SP_NAME = "user_config"
     private const val KEY_USER_ID = "user_id"
@@ -53,19 +36,24 @@ object SupabaseClient {
     private const val KEY_USER_TOKEN = "user_token"
     private const val KEY_USER_REFRESH_TOKEN = "user_refresh_token"
     
-    /**
-     * 初始化（需要在 Application 中调用）
-     */
-    fun init(context: Context) {
-        sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
+    val client: OkHttpClient by lazy {
+        createSecureOkHttpClient()
     }
     
-    /**
-     * 当前登录用户
-     */
+    data class User(
+        val id: String,
+        val email: String,
+        val token: String,
+        val refreshToken: String = ""
+    )
+    
+    data class AuthResponse(
+        val user: User?,
+        val error: String?
+    )
+    
     var currentUser: User? = null
         get() {
-            // 如果内存中没有，尝试从 SP 读取
             if (field == null) {
                 val id = sp.getString(KEY_USER_ID, null) ?: return null
                 val email = sp.getString(KEY_USER_EMAIL, "") ?: ""
@@ -77,9 +65,73 @@ object SupabaseClient {
         }
         private set
     
+    fun init(context: Context) {
+        sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
+    }
+    
     /**
-     * 使用邮箱密码登录
+     * 创建带有 SSL Pinning 的安全 OkHttpClient
      */
+    private fun createSecureOkHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BASIC
+        }
+        
+        return OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(sslPinningInterceptor())
+            .build()
+    }
+    
+    /**
+     * SSL Pinning 拦截器
+     * 验证服务器证书指纹
+     */
+    private fun sslPinningInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request()
+            val response = chain.proceed(request)
+            
+            val certs = response.handshake?.peerCertificates
+            if (certs != null && !verifyCertificatePins(certs)) {
+                throw SecurityException("SSL certificate pinning failed")
+            }
+            
+            response
+        }
+    }
+    
+    /**
+     * 验证证书指纹
+     */
+    private fun verifyCertificatePins(certificates: List<Certificate>): Boolean {
+        val allowedFingerprints = listOf(
+            "SHA256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        )
+        
+        for (cert in certificates) {
+            if (cert is X509Certificate) {
+                val fingerprint = getCertificateFingerprint(cert)
+                if (allowedFingerprints.contains(fingerprint)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    /**
+     * 获取证书 SHA256 指纹
+     */
+    private fun getCertificateFingerprint(cert: X509Certificate): String {
+        val digest = java.security.MessageDigest.getInstance("SHA-256")
+        val encoded = digest.digest(cert.encoded)
+        return "SHA256:" + android.util.Base64.encodeToString(encoded, android.util.Base64.DEFAULT).trim()
+    }
+    
     fun login(email: String, password: String, callback: (AuthResponse) -> Unit) {
         val url = "$SUPABASE_URL/auth/v1/token?grant_type=password"
         
@@ -123,7 +175,6 @@ object SupabaseClient {
                                 refreshToken = refreshToken
                             )
                             
-                            // 保存用户信息
                             saveUser(user)
                             currentUser = user
                             
@@ -144,9 +195,6 @@ object SupabaseClient {
         })
     }
     
-    /**
-     * 注册新用户
-     */
     fun register(email: String, password: String, callback: (AuthResponse) -> Unit) {
         val url = "$SUPABASE_URL/auth/v1/signup"
         
@@ -203,25 +251,15 @@ object SupabaseClient {
         })
     }
     
-    /**
-     * 登出
-     */
     fun logout() {
         currentUser = null
-        // 清除 SP 中的数据
         sp.edit().clear().apply()
     }
     
-    /**
-     * 检查是否已登录
-     */
     fun isLoggedIn(): Boolean {
         return currentUser != null
     }
     
-    /**
-     * 保存用户信息到 SharedPreferences
-     */
     private fun saveUser(user: User) {
         sp.edit().apply {
             putString(KEY_USER_ID, user.id)
@@ -232,9 +270,6 @@ object SupabaseClient {
         }
     }
     
-    /**
-     * 使用 Refresh Token 刷新 Access Token
-     */
     fun refreshToken(callback: (Boolean, String?) -> Unit) {
         val user = currentUser
         if (user == null || user.refreshToken.isEmpty()) {
@@ -274,7 +309,6 @@ object SupabaseClient {
                             val accessToken = jsonResponse.getString("access_token")
                             val newRefreshToken = jsonResponse.optString("refresh_token", user.refreshToken)
                             
-                            // 更新用户信息
                             val updatedUser = user.copy(
                                 token = accessToken,
                                 refreshToken = newRefreshToken

@@ -52,6 +52,9 @@ fun NoteEditScreen(
         mutableStateOf(if (noteId == 0L) ViewMode.SPLIT else ViewMode.PREVIEW_ONLY) 
     }
     
+    // 光标位置跟踪
+    var cursorPosition by remember { mutableStateOf(0) }
+    
     // 关键修复：使用阻塞式加载确保数据立即显示
     LaunchedEffect(noteId) {
         viewModel.setNoteId(noteId)
@@ -115,10 +118,10 @@ fun NoteEditScreen(
             // Markdown 工具栏（编辑模式和分屏模式显示）
             if (viewMode != ViewMode.PREVIEW_ONLY) {
                 MarkdownToolbar(onFormatClick = { formatType ->
-                    // 应用格式化
+                    // 应用格式化到光标位置
                     val (newContent, newCursorPos) = com.yutie.note.ui.editor.applyFormat(
                         content, 
-                        0, 
+                        cursorPosition, 
                         formatType
                     )
                     viewModel.setContent(newContent)
@@ -133,6 +136,7 @@ fun NoteEditScreen(
                     content = content,
                     onTitleChange = { viewModel.setTitle(it) },
                     onContentChange = { viewModel.setContent(it) },
+                    onCursorPositionChange = { cursorPosition = it },
                     isProUser = true
                 )
             }

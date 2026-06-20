@@ -45,7 +45,8 @@ fun MarkdownPreviewPanel(
             }
         },
         update = { textView ->
-            markwon.setMarkdown(textView, content)
+            val processedContent = content.replace("\n", "  \n")
+            markwon.setMarkdown(textView, processedContent)
         },
         modifier = Modifier.fillMaxWidth()
     )
