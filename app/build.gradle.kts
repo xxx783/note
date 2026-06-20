@@ -122,6 +122,8 @@ dependencies {
     implementation("io.noties.markwon:html:4.6.2")
     implementation("io.noties.markwon:linkify:4.6.2")
     
+
+    
     // Supabase Kotlin SDK
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.2.3")
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.2.3")

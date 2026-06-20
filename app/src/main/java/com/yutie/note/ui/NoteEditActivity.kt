@@ -23,6 +23,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yutie.note.ui.custom.CustomTitleBar
+import com.yutie.note.ui.editor.MarkdownSplitScreen
+import com.yutie.note.ui.editor.MarkdownToolbar
+import com.yutie.note.ui.editor.ViewMode
 import com.yutie.note.ui.viewmodel.NoteEditViewModel
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
@@ -44,12 +47,13 @@ fun NoteEditScreen(
     val content by viewModel.content.collectAsState()
     val showSaveHint by viewModel.showSaveHint.collectAsState()
     
-    // 是否是编辑模式，默认 false（阅读模式），新建笔记时直接进编辑模式
-    var isEditMode by remember(noteId) { mutableStateOf(noteId == 0L) }
+    // 视图模式：新建笔记默认分屏模式，已有笔记默认阅读模式
+    var viewMode by remember(noteId) { 
+        mutableStateOf(if (noteId == 0L) ViewMode.SPLIT else ViewMode.PREVIEW_ONLY) 
+    }
     
     // 关键修复：使用阻塞式加载确保数据立即显示
     LaunchedEffect(noteId) {
-        // 直接调用 setNoteId，它会处理加载或清空逻辑
         viewModel.setNoteId(noteId)
     }
     
@@ -66,20 +70,15 @@ fun NoteEditScreen(
                 title = if (noteId == 0L) stringResource(R.string.str_new_note) else 
                        if (title.isEmpty()) stringResource(R.string.str_no_title) else title,
                 showBackButton = true,
-                rightIcon = if (isEditMode) Icons.Default.Done else Icons.Default.Edit,
+                rightIcon = getViewModeIcon(viewMode),
                 onBackClick = onBackClick,
                 onRightClick = {
-                    if (isEditMode) {
-                        viewModel.saveNote(showHint = true)
-                        isEditMode = false
-                    } else {
-                        isEditMode = true
-                    }
+                    viewMode = cycleViewMode(viewMode)
                 }
             )
             
-            // 保存状态提示（只在编辑模式显示）
-            if (isEditMode && showSaveHint) {
+            // 保存状态提示
+            if (viewMode != ViewMode.PREVIEW_ONLY && showSaveHint) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -113,166 +112,53 @@ fun NoteEditScreen(
                 }
             }
             
+            // Markdown 工具栏（编辑模式和分屏模式显示）
+            if (viewMode != ViewMode.PREVIEW_ONLY) {
+                MarkdownToolbar(onFormatClick = { formatType ->
+                    // 应用格式化
+                    val (newContent, newCursorPos) = com.yutie.note.ui.editor.applyFormat(
+                        content, 
+                        0, 
+                        formatType
+                    )
+                    viewModel.setContent(newContent)
+                })
+            }
+            
             // 内容区域
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                if (isEditMode) {
-                    // 编辑模式 - 标题输入
-                    BasicTextField(
-                        value = title,
-                        onValueChange = { viewModel.setTitle(it) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textStyle = TextStyle(
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                        decorationBox = { innerTextField ->
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                if (title.isEmpty()) {
-                                    Text(
-                                        text = stringResource(R.string.str_note_title_placeholder),
-                                        style = TextStyle(
-                                            fontSize = 24.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                                        )
-                                    )
-                                }
-                                innerTextField()
-                            }
-                        },
-                        maxLines = 3
-                    )
-                    
-                    // 编辑模式 - 内容输入
-                    BasicTextField(
-                        value = content,
-                        onValueChange = { viewModel.setContent(it) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 600.dp)
-                            .padding(16.dp),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                        decorationBox = { innerTextField ->
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                if (content.isEmpty()) {
-                                    Text(
-                                        text = stringResource(R.string.str_note_content_placeholder),
-                                        style = TextStyle(
-                                            fontSize = 16.sp,
-                                            lineHeight = 24.sp,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                                        )
-                                    )
-                                }
-                                innerTextField()
-                            }
-                        },
-                        maxLines = Int.MAX_VALUE
-                    )
-                    
-                    // 底部提示
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        AssistChip(
-                            onClick = { },
-                            label = { 
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Info,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(14.dp)
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.str_note_save_hint),
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                                    )
-                                }
-                            },
-                            colors = AssistChipDefaults.assistChipColors(
-                                containerColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f)
-                            )
-                        )
-                    }
-                } else {
-                    // 阅读模式 - 展示标题
-                    if (title.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.str_no_title),
-                            style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    } else {
-                        Text(
-                            text = title,
-                            style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                    
-                    // 阅读模式 - 展示内容（Markdown 渲染）
-                    if (content.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.str_no_content),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                            lineHeight = 28.sp,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    } else {
-                        val context = LocalContext.current
-                        val markwon = remember {
-                            Markwon.builder(context)
-                                .usePlugin(StrikethroughPlugin.create())
-                                .usePlugin(TablePlugin.create(context))
-                                .usePlugin(HtmlPlugin.create())
-                                .usePlugin(LinkifyPlugin.create())
-                                .build()
-                        }
-                        AndroidView(
-                            factory = { ctx ->
-                                TextView(ctx).apply {
-                                    setPadding(
-                                        (16 * ctx.resources.displayMetrics.density).toInt(),
-                                        0,
-                                        (16 * ctx.resources.displayMetrics.density).toInt(),
-                                        0
-                                    )
-                                    setLineSpacing(0f, 1.4f)
-                                }
-                            },
-                            update = { textView ->
-                                markwon.setMarkdown(textView, content)
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
+            Box(modifier = Modifier.fillMaxSize()) {
+                MarkdownSplitScreen(
+                    viewMode = viewMode,
+                    title = title,
+                    content = content,
+                    onTitleChange = { viewModel.setTitle(it) },
+                    onContentChange = { viewModel.setContent(it) },
+                    isProUser = true
+                )
             }
         }
+    }
+}
+
+/**
+ * 根据视图模式获取图标
+ */
+@Composable
+fun getViewModeIcon(viewMode: ViewMode): androidx.compose.ui.graphics.vector.ImageVector {
+    return when (viewMode) {
+        ViewMode.EDIT_ONLY -> Icons.Default.EditNote
+        ViewMode.SPLIT -> Icons.Default.PanoramaHorizontal
+        ViewMode.PREVIEW_ONLY -> Icons.Default.RemoveRedEye
+    }
+}
+
+/**
+ * 循环切换视图模式
+ */
+fun cycleViewMode(current: ViewMode): ViewMode {
+    return when (current) {
+        ViewMode.EDIT_ONLY -> ViewMode.SPLIT
+        ViewMode.SPLIT -> ViewMode.PREVIEW_ONLY
+        ViewMode.PREVIEW_ONLY -> ViewMode.EDIT_ONLY
     }
 }
