@@ -20,5 +20,9 @@
 !app/
 !app/**
 
+# 排除系统文件
+.DS_Store
+**/.DS_Store
+
 # 排除 app 模块中的 build 目录
 app/build/
