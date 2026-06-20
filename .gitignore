@@ -12,15 +12,17 @@
 !gradle/
 !gradle/**
 
+# IDE 配置
+!.idea/
+!.idea/**
+
+# Gradle 缓存
+!.gradle/
+!.gradle/**
+
 # Android app 模块
 !app/
 !app/**
-
-# Miuix 模块（Android 项目依赖）
-!miuix-compose/
-!miuix-compose/**
-!miuix-library/
-!miuix-library/**
 
 # 排除 app 模块中的 build 目录
 app/build/
