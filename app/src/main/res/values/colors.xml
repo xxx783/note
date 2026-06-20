@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 基础色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <!-- 主色调 -->
+    <color name="color_primary">#2A86FF</color>
+    <color name="color_primary_dark">#1E6FD9</color>
+    <color name="color_primary_light">#5FA3FF</color>
+    
+    <!-- 辅助色 -->
+    <color name="color_secondary">#666666</color>
+    <color name="color_secondary_light">#999999</color>
+    
+    <!-- 浅色模式背景色 -->
+    <color name="color_background_light">#FFFFFF</color>
+    <color name="color_surface_light">#F5F5F5</color>
+    <color name="color_card_light">#FFFFFF</color>
+    
+    <!-- 深色模式背景色 -->
+    <color name="color_background_dark">#121212</color>
+    <color name="color_surface_dark">#1E1E1E</color>
+    <color name="color_card_dark">#2D2D2D</color>
+    
+    <!-- 文字颜色 - 浅色模式 -->
+    <color name="color_text_primary_light">#333333</color>
+    <color name="color_text_secondary_light">#666666</color>
+    <color name="color_text_hint_light">#999999</color>
+    
+    <!-- 文字颜色 - 深色模式 -->
+    <color name="color_text_primary_dark">#EEEEEE</color>
+    <color name="color_text_secondary_dark">#BBBBBB</color>
+    <color name="color_text_hint_dark">#666666</color>
+    
+    <!-- 功能色 -->
+    <color name="color_success">#4CAF50</color>
+    <color name="color_warning">#FF9800</color>
+    <color name="color_error">#F44336</color>
+    <color name="color_divider">#E0E0E0</color>
+    <color name="color_divider_dark">#424242</color>
+</resources>

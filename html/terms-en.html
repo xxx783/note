@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Agreement - Simple Notes</title>
+    <style>
+        :root {
+            --primary: #FF8C42; --primary-dark: #E07535; --secondary: #FF6B6B;
+            --text-dark: #2D2D2D; --text-medium: #5A5A5A; --text-light: #8A8A8A;
+            --bg-white: #FFFFFF; --bg-warm: #FFF9F5; --bg-soft: #FFF0E6;
+            --shadow-sm: 0 2px 8px rgba(255, 140, 66, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark); background: var(--bg-white); line-height: 1.8;
+        }
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1rem 2rem; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px); box-shadow: var(--shadow-sm);
+        }
+        .nav-content {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-dark); }
+        .nav-logo-icon {
+            width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem;
+        }
+        .nav-logo-text { font-size: 1.25rem; font-weight: 700; }
+        .nav-back {
+            text-decoration: none; color: var(--text-medium); font-size: 0.95rem; font-weight: 500; transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--primary); }
+        .page-content { max-width: 800px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+        .page-title {
+            font-size: 2rem; font-weight: 800; margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .page-update { color: var(--text-light); font-size: 0.9rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #E8E8E8; }
+        .section { margin-bottom: 2.5rem; }
+        .section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-dark); }
+        .section-content { color: var(--text-medium); font-size: 1rem; line-height: 1.9; }
+        .section-content p { margin-bottom: 0.75rem; }
+        .section-content ul { list-style: none; padding-left: 0; }
+        .section-content ul li { padding-left: 1.5rem; margin-bottom: 0.5rem; position: relative; }
+        .section-content ul li::before { content: "•"; color: var(--primary); font-weight: bold; position: absolute; left: 0; }
+        .footer { background: var(--text-dark); color: rgba(255, 255, 255, 0.7); padding: 3rem 2rem; text-align: center; }
+        .footer a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s; }
+        .footer a:hover { color: var(--primary); }
+        @media (max-width: 600px) { .page-content { padding: 6rem 1.5rem 3rem; } .page-title { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="./scribe-en.html" class="nav-logo">
+                <div class="nav-logo-icon">&#9998;</div>
+                <span class="nav-logo-text">Simple Notes</span>
+            </a>
+            <a href="./scribe-en.html" class="nav-back">&larr; Back to Home</a>
+        </div>
+    </nav>
+    <div class="page-content">
+        <h1 class="page-title">User Agreement</h1>
+        <p class="page-update">Last Updated: April 11, 2026</p>
+        <div class="section">
+            <h2 class="section-title">1. Service Description</h2>
+            <div class="section-content">
+                <p>Welcome to Simple Notes! This product is a local note-taking application that supports basic features such as creating, editing, and deleting notes. You can log in to your account to sync notes to the cloud for multi-device data synchronization.</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">2. User Registration & Login</h2>
+            <div class="section-content">
+                <ul>
+                    <li>You need to register and log in to an account to use cloud sync features.</li>
+                    <li>You should keep your account information secure and must not transfer or lend your account to others.</li>
+                    <li>We are not responsible for account misuse due to improper保管.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">3. User Behavior Guidelines</h2>
+            <div class="section-content">
+                <p>When using this service, you should comply with national laws and regulations. You must not:</p>
+                <ul>
+                    <li>Create, copy, publish, or distribute illegal content</li>
+                    <li>Use this service for any illegal activities</li>
+                    <li>Reverse engineer, crack, or maliciously attack this service</li>
+                </ul>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">4. Intellectual Property</h2>
+            <div class="section-content">
+                <p>The intellectual property rights of this software and all its contents (including but not limited to text, images, audio, video, software, programs, etc.) belong to the developer. Unauthorized commercial use is prohibited.</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">5. Disclaimer</h2>
+            <div class="section-content">
+                <p>The developer is not responsible for service interruptions or data loss caused by any non-developer reasons such as network conditions, communication lines, server failures, etc. We recommend that you regularly backup important note data.</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">6. Agreement Changes</h2>
+            <div class="section-content">
+                <p>The developer reserves the right to modify this agreement as needed. Modified agreements will be notified through in-app announcements. Continued use of this service indicates your acceptance of the modified agreement.</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">7. Governing Law</h2>
+            <div class="section-content">
+                <p>The interpretation, validity, and dispute resolution of this agreement shall be governed by the laws of the People's Republic of China. In case of disputes, both parties should negotiate in good faith; if negotiation fails, either party may file a lawsuit in the court where the developer is located.</p>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2026 Simple Notes. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;"><a href="./scribe-en.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>

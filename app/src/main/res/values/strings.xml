@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">简约笔记</string>
+    
+    <!-- 通用 -->
+    <string name="str_confirm">确定</string>
+    <string name="str_cancel">取消</string>
+    <string name="str_delete">删除</string>
+    <string name="str_edit">编辑</string>
+    <string name="str_save">保存</string>
+    <string name="str_back">返回</string>
+    <string name="str_search">搜索</string>
+    <string name="str_more">更多</string>
+    <string name="str_loading">加载中…</string>
+    <string name="str_empty">暂无数据</string>
+    <string name="str_success">操作成功</string>
+    <string name="str_failed">操作失败</string>
+    <string name="str_known">知道了</string>
+    <string name="str_submit">提交</string>
+    <string name="str_submitting">提交中...</string>
+    <string name="str_downloading">下载中...</string>
+    <string name="str_checking">检查中...</string>
+    
+    <!-- 主页面 -->
+    <string name="str_home_title">我的笔记</string>
+    <string name="str_add_note">新建笔记</string>
+    <string name="str_search_hint">搜索笔记标题或内容</string>
+    <string name="str_all_categories">全部分类</string>
+    <string name="str_no_category">未分类</string>
+    <string name="str_system_announcement">系统公告</string>
+    
+    <!-- 笔记编辑页面 -->
+    <string name="str_edit_note">编辑笔记</string>
+    <string name="str_new_note">新建笔记</string>
+    <string name="str_note_title">标题</string>
+    <string name="str_note_title_hint">请输入笔记标题</string>
+    <string name="str_note_content_hint">开始记录你的想法…</string>
+    <string name="str_auto_saved">已自动保存</string>
+    <string name="str_save_draft">保存草稿</string>
+    
+    <!-- 分类管理 -->
+    <string name="str_categories">分类管理</string>
+    <string name="str_add_category">新建分类</string>
+    <string name="str_category_name">分类名称</string>
+    <string name="str_category_name_hint">请输入分类名称</string>
+    <string name="str_edit_category">编辑分类</string>
+    <string name="str_delete_category_confirm">确定要删除此分类吗？</string>
+    
+    <!-- 设置页面 -->
+    <string name="str_settings">设置</string>
+    <string name="str_theme">主题设置</string>
+    <string name="str_theme_editor">主题编辑器</string>
+    <string name="str_theme_editor_subtitle">自定义专属主题（Pro 功能）</string>
+    <string name="str_official_theme_store">官方主题商店</string>
+    <string name="str_official_theme_store_subtitle">精选预设主题（Pro 功能）</string>
+    <string name="str_community_themes">社区主题</string>
+    <string name="str_tips">使用提示</string>
+    <string name="str_community_themes_subtitle">浏览和分享主题（APEX 功能）</string>
+    <string name="str_light_mode">浅色模式</string>
+    <string name="str_dark_mode">深色模式</string>
+    <string name="str_follow_system">跟随系统</string>
+    <string name="str_privacy">隐私安全</string>
+    <string name="str_note_encrypt">笔记加密</string>
+    <string name="str_set_password">设置密码</string>
+    <string name="str_change_password">修改密码</string>
+    <string name="str_data_backup">数据备份</string>
+    <string name="str_export_data">导出数据</string>
+    <string name="str_import_data">导入数据</string>
+    <string name="str_about">关于</string>
+    <string name="str_version">版本号</string>
+    <string name="str_app_description">简约笔记 - 您的私密笔记空间</string>
+    <string name="str_feature_guide">功能说明</string>
+    <string name="str_feature_guide_subtitle">查看应用功能介绍</string>
+    <string name="str_request_upgrade">申请升级</string>
+    <string name="str_request_upgrade_subtitle">申请升级到 Pro/APEX 版本</string>
+    <string name="str_publish_announcement">发布公告</string>
+    <string name="str_publish_announcement_subtitle">发布系统公告到 gonggao 表</string>
+    <string name="str_history_announcements">历史公告</string>
+    <string name="str_history_announcements_subtitle">查看所有历史公告记录</string>
+    <string name="str_feedback">问题反馈</string>
+    <string name="str_feedback_subtitle">提交您的问题或建议</string>
+    <string name="str_check_update">检查更新</string>
+    <string name="str_current_version">当前版本</string>
+    
+    <!-- 账户相关 -->
+    <string name="str_account">账户</string>
+    <string name="str_user">用户</string>
+    <string name="str_logged_in">已登录</string>
+    <string name="str_sync_notes">同步笔记</string>
+    <string name="str_syncing">同步中...</string>
+    <string name="str_sync_notes_to_cloud">将所有笔记同步到云端</string>
+    <string name="str_pull_cloud_notes">拉取云端笔记</string>
+    <string name="str_pulling">拉取中...</string>
+    <string name="str_pull_cloud_notes_subtitle">从云端下载所有笔记到本地</string>
+    <string name="str_clear_cloud_data">清除云端数据</string>
+    <string name="str_clear_cloud_data_subtitle">将云端所有笔记清除</string>
+    <string name="str_logout">退出登录</string>
+    <string name="str_logout_subtitle">点击退出当前账户</string>
+    <string name="str_login">登录账户</string>
+    <string name="str_login_subtitle">登录以同步笔记数据</string>
+    
+    <!-- 提示弹窗 -->
+    <string name="str_delete_confirm">确定要删除吗？</string>
+    <string name="str_exit_app">再次点击退出应用</string>
+    <string name="str_no_input_title">请输入标题</string>
+    <string name="str_no_input_content">请输入笔记内容</string>
+    <string name="str_no_input_category_name">请输入分类名称</string>
+    <string name="str_password_not_match">两次密码输入不一致</string>
+    <string name="str_password_too_short">密码长度不能少于 6 位</string>
+    <string name="str_export_success">导出成功</string>
+    <string name="str_export_failed">导出失败</string>
+    <string name="str_import_success">导入成功</string>
+    <string name="str_import_failed">导入失败</string>
+    <string name="str_clear_cloud_data_confirm">确定要清除云端所有笔记吗？此操作不可恢复！</string>
+    
+    <!-- 语言设置 -->
+    <string name="str_language">语言设置</string>
+    <string name="str_language_auto">跟随系统</string>
+    <string name="str_language_zh">简体中文</string>
+    <string name="str_language_en">English</string>
+    <string name="str_language_select">选择语言</string>
+    <string name="str_user_agreement">用户协议</string>
+    <string name="str_user_agreement_subtitle">阅读服务条款和使用协议</string>
+    <string name="str_privacy_policy">隐私政策</string>
+    <string name="str_privacy_policy_subtitle">了解数据收集和使用的说明</string>
+
+    <!-- 反馈页面 -->
+    <string name="str_feedback_title">问题反馈</string>
+    <string name="str_feedback_description">我们非常重视您的反馈，请详细描述您遇到的问题或建议</string>
+    <string name="str_feedback_content">反馈内容</string>
+    <string name="str_feedback_content_hint">请详细描述您的问题或建议...</string>
+    <string name="str_feedback_email">联系邮箱（选填）</string>
+    <string name="str_feedback_email_hint">用于我们回复您的反馈，未登录用户可手动填写</string>
+    <string name="str_feedback_email_hint_logged_in">用于我们回复您的反馈</string>
+    <string name="str_feedback_submit_success">✓ 反馈已提交，感谢您的宝贵意见！</string>
+    <string name="str_feedback_submit_failed">提交失败，请稍后重试</string>
+    <string name="str_feedback_fill_content">请填写反馈内容</string>
+
+    <!-- 检查更新页面 -->
+    <string name="str_check_update_title">检查更新</string>
+    <string name="str_current_version_card">当前版本</string>
+    <string name="str_check_update_btn">检查更新</string>
+    <string name="str_new_version_found">发现新版本</string>
+    <string name="str_latest_version">已是最新版本</string>
+    <string name="str_latest_version_hint">最新版本：</string>
+    <string name="str_update_logs">更新日志</string>
+    <string name="str_version_label">版本</string>
+    <string name="str_update_time">更新时间：</string>
+    <string name="str_update_content">更新内容：</string>
+    <string name="str_download_update">下载更新</string>
+    <string name="str_no_download_link">暂无下载链接</string>
+    <string name="str_unable_to_open_link">无法打开下载链接：</string>
+    <string name="str_no_update_records">暂无更新记录</string>
+
+    <!-- 首页弹窗和对话框 -->
+    <string name="str_batch_manage">批量管理</string>
+    <string name="str_delete_note">删除笔记</string>
+    <string name="str_delete_cloud_confirm">同时从云端删除（不可恢复）</string>
+    <string name="str_cloud_delete_title">⚠️ 确认云端删除</string>
+    <string name="str_cloud_delete_message">确定要从云端彻底删除这些笔记吗？此操作不可恢复！</string>
+    <string name="str_confirm_delete">确认删除</string>
+    <string name="str_delete_multiple_confirm">确定要删除这 %1$d 篇笔记吗？</string>
+    <string name="str_delete_single_confirm">确定要删除这篇笔记吗？</string>
+
+    <!-- 发布公告页面 -->
+    <string name="str_publish_announcement_title">发布公告</string>
+    <string name="str_announcement_title_label">公告标题</string>
+    <string name="str_announcement_title_hint">例如：系统维护通知</string>
+    <string name="str_announcement_content_label">公告内容</string>
+    <string name="str_announcement_content_hint">请输入公告详细内容...</string>
+    <string name="str_is_important">重要公告</string>
+    <string name="str_is_important_subtitle">重要公告会在用户打开应用时弹出</string>
+    <string name="str_publish">发布</string>
+    <string name="str_publishing">发布中...</string>
+    <string name="str_publish_success">公告发布成功！</string>
+    <string name="str_publish_failed">发布失败，请稍后重试</string>
+    <string name="str_fill_title">请填写公告标题</string>
+    <string name="str_fill_content">请填写公告内容</string>
+
+    <!-- 升级申请页面 -->
+    <string name="str_upgrade_application">申请升级</string>
+    <string name="str_contact_email">联系邮箱</string>
+    <string name="str_contact_email_hint">用于接收审核通知</string>
+    <string name="str_upgrade_reason">申请理由</string>
+    <string name="str_upgrade_reason_hint">请说明为什么需要升级，例如：需要更多主题、支持开发者等</string>
+    <string name="str_target_version">目标版本</string>
+    <string name="str_submit_success">申请已提交！</string>
+    <string name="str_submit_failed">提交失败，请稍后重试</string>
+    <string name="str_fill_email">请填写联系邮箱</string>
+    <string name="str_fill_reason">请填写申请理由</string>
+
+    <!-- 动画编辑器 -->
+    <string name="str_animation_editor">动画编辑器</string>
+    <string name="str_fade_animation">渐隐渐现</string>
+    <string name="str_slide_animation">滑动</string>
+    <string name="str_scale_animation">缩放</string>
+
+    <!-- 主题上传 -->
+    <string name="str_upload_theme">上传主题</string>
+    <string name="str_theme_name">主题名称</string>
+    <string name="str_theme_name_hint">例如：极简黑白、赛博朋克</string>
+    <string name="str_uploading">上传中...</string>
+    <string name="str_upload_success">主题上传成功！</string>
+    <string name="str_upload_failed">上传失败，请稍后重试</string>
+    <string name="str_fill_theme_name">请填写主题名称</string>
+
+    <!-- 主题编辑器 -->
+    <string name="str_color_picker">选择颜色</string>
+    <string name="str_theme_editor_title">主题编辑器</string>
+
+    <!-- 登录注册 -->
+    <string name="str_email">邮箱</string>
+    <string name="str_email_hint">请输入邮箱地址</string>
+    <string name="str_password">密码</string>
+    <string name="str_password_hint">请输入密码（至少 6 位）</string>
+    <string name="str_password_hint_login">请输入密码</string>
+    <string name="str_confirm_password">确认密码</string>
+    <string name="str_confirm_password_hint">请再次输入密码</string>
+    <string name="str_login_now">立即登录</string>
+    <string name="str_register_now">立即注册</string>
+    <string name="str_read_agreement">已阅读并同意</string>
+    <string name="str_and">和</string>
+
+    <!-- 笔记编辑页 -->
+    <string name="str_note_saved">已保存</string>
+    <string name="str_note_title_placeholder">输入笔记标题…</string>
+    <string name="str_note_content_placeholder">开始记录你的想法…\n\n支持长篇内容写作\n自动保存草稿</string>
+    <string name="str_note_save_hint">内容会自动保存，点击右上角完成即可</string>
+    <string name="str_no_title">无标题</string>
+    <string name="str_no_content">暂无内容</string>
+
+    <!-- 用户协议 -->
+    <string name="str_user_agreement_title">简约笔记用户协议</string>
+    <string name="str_user_agreement_welcome">欢迎使用简约笔记！请您在使用本产品前，仔细阅读并充分理解本用户协议。</string>
+    <string name="str_user_agreement_intro">简约笔记是一款本地笔记应用，支持笔记的创建、编辑、删除等基本功能。您可以通过登录账户将笔记同步到云端，实现多设备间的数据同步。</string>
+    <string name="str_user_agreement_account">2.1 您需要注册并登录账户才能使用云端同步功能。</string>
+    <string name="str_user_agreement_rules">3.1 您在使用本服务时，应遵守国家法律法规，不得制作、复制、发布、传播违法违规内容。</string>
+    <string name="str_user_agreement_ip">4.1 本软件及其包含的所有内容（包括但不限于文字、图片、音频、视频、软件、程序等）的知识产权归开发者所有。</string>
+    <string name="str_user_agreement_liability">5.1 因网络状况、通讯线路、服务器故障等任何非开发者原因导致的服务中断或数据丢失，开发者不承担责任。</string>
+    <string name="str_user_agreement_modification">6.1 开发者有权根据需要修改本协议内容，修改后的协议将通过应用内公告等方式通知您。</string>
+    <string name="str_user_agreement_law">7.1 本协议的解释、效力及纠纷的解决，适用中华人民共和国法律。</string>
+    <string name="str_user_agreement_update_date">更新日期：2026 年 4 月 11 日</string>
+
+    <!-- 隐私政策 -->
+    <string name="str_privacy_policy_title">简约笔记隐私政策</string>
+    <string name="str_privacy_policy_intro">我们非常重视您的隐私保护。请您在使用我们的产品前，仔细阅读并了解本隐私政策。</string>
+    <string name="str_privacy_policy_data">1.1 账户信息：注册时，我们会收集您的邮箱地址和密码，用于账户管理和身份验证。</string>
+    <string name="str_privacy_policy_usage">2.1 我们仅将收集的信息用于提供和改进我们的服务。</string>
+
+    <!-- 发布公告页 -->
+    <string name="str_admin_only">仅限管理员访问</string>
+    <string name="str_admin_mode">管理员模式 - 发布公告将推送给所有用户</string>
+    <string name="str_important_announcement">重要公告</string>
+    <string name="str_important_announcement_desc">重要公告会在用户启动应用时弹窗显示</string>
+
+    <!-- 历史公告 -->
+    <string name="str_no_announcements">暂无公告</string>
+    <string name="str_publish_time">发布时间：</string>
+    <string name="str_publisher">发布者：</string>
+    <string name="str_admin">管理员</string>
+
+    <!-- 升级申请 -->
+    <string name="str_already_apex">您已是 APEX 用户</string>
+    <string name="str_already_apex_desc">您已拥有最完整、最功能强大的版本\n无需再升级\n\n感谢您对简约笔记的支持！</string>
+    <string name="str_current_plan">当前计划</string>
+    <string name="str_upgrade_available">您可以申请升级到更高版本</string>
+    <string name="str_target_plan">目标计划</string>
+    <string name="str_email_optional">可选，不填写则使用认证邮箱</string>
+    <string name="str_upgrade_reason_optional">可选，但填写可以提高通过率哦~</string>
+
+    <!-- 动画编辑器 -->
+    <string name="str_apex_feature">APEX 专属功能</string>
+    <string name="str_custom_animation">自定义应用动画效果</string>
+    <string name="str_enable_animation">启用动画</string>
+    <string name="str_disable_animation">关闭后所有动画效果将禁用</string>
+    <string name="str_animation_speed">动画速度</string>
+    <string name="str_current_speed">当前速度：%.1fx</string>
+    <string name="str_default_speed">1.0x (默认)</string>
+    <string name="str_transition_effect">过渡效果</string>
+    <string name="str_effect_preview">效果预览</string>
+    <string name="str_spring_stiffness">弹性系数</string>
+    <string name="str_current_stiffness">当前系数：%d</string>
+    <string name="str_soft">柔和</string>
+    <string name="str_standard">标准</string>
+    <string name="str_bouncy">Q 弹</string>
+    <string name="str_save_animation">保存动画配置</string>
+    <string name="str_upgrade_to_apex">升级到 APEX</string>
+    <string name="str_apex_required">此功能需要 APEX 计划\n当前：%s</string>
+
+    <!-- 主题详情 -->
+    <string name="str_theme_not_found">主题不存在</string>
+    <string name="str_color_scheme">配色方案</string>
+    <string name="str_theme_description">主题描述</string>
+    <string name="str_share_theme">分享主题</string>
+
+    <!-- 社区主题 -->
+    <string name="str_community_featured">社区精选</string>
+    <string name="str_community_discover">发现和使用其他 APEX 用户创作的精美主题\n点击右上角分享你的主题</string>
+    <string name="str_loading_community">正在加载社区主题…</string>
+    <string name="str_load_failed">加载失败</string>
+    <string name="str_no_community_themes">暂无社区主题</string>
+    <string name="str_upload_first_theme">快来上传第一个主题吧！</string>
+    <string name="str_popular_themes">热门主题</string>
+
+    <!-- 上传主题 -->
+    <string name="str_share_your_theme">将你的创意主题分享给所有人</string>
+    <string name="str_light_mode_config">浅色模式配置</string>
+    <string name="str_customize_colors">点击下方颜色框可自定义修改</string>
+    <string name="str_font_size">字体大小：%dsp</string>
+    <string name="str_font_weight">字体粗细</string>
+    <string name="str_dark_mode_config">深色模式配置</string>
+    <string name="str_dark_mode_colors">深色模式下的颜色配置</string>
+    <string name="str_dark_mode_auto">深色模式将自动生成，无需手动配置</string>
+    <string name="str_upload_to_community">上传到社区</string>
+    <string name="str_upload_notice">上传须知</string>
+    <string name="str_upload_rules">1. 上传的主题需要经过审核才能显示\n2. 请确保主题名称和描述健康向上\n3. 禁止上传侵犯他人权益的主题\n4. 每个 APEX 用户最多可上传 10 个主题</string>
+
+    <!-- 官方主题商店 -->
+    <string name="str_featured_themes">精选主题</string>
+    <string name="str_theme_cards_hint">点击下方主题卡片即可预览并应用</string>
+    <string name="str_all_themes">所有主题</string>
+    <string name="str_dark">深色</string>
+
+    <!-- 主题编辑器 -->
+    <string name="str_color_config">颜色配置</string>
+    <string name="str_font_config">字体配置</string>
+    <string name="str_font_size_label">字体大小：%dsp</string>
+    <string name="str_font_type">字体类型</string>
+    <string name="str_live_preview">实时预览</string>
+    <string name="str_save_apply_theme">保存并应用主题</string>
+    <string name="str_current_label">当前：</string>
+    <string name="str_preset_colors">预设颜色</string>
+    <string name="str_color_picker_hint">提示：请选择预设颜色，或手动输入 HEX 值（如 #FF5722）</string>
+    <string name="str_plan_required">此功能需要 %s 计划</string>
+    <string name="str_learn_more">了解更多</string>
+
+    <!-- 用户协议详细 -->
+    <string name="str_user_agreement_section3">3.1 您在使用本服务时，应遵守国家法律法规，不得制作、复制、发布、传播违法违规内容。</string>
+    <string name="str_user_agreement_section4">4.1 本软件及其包含的所有内容的知识产权归开发者所有。</string>
+    <string name="str_user_agreement_section5">5.1 因网络状况、通讯线路、服务器故障等原因导致的服务中断或数据丢失，开发者不承担责任。</string>
+    <string name="str_user_agreement_section6">6.1 开发者有权修改本协议，修改后的协议将通过应用内公告通知您。</string>
+    <string name="str_user_agreement_section7">7.1 本协议的解释、效力及纠纷的解决，适用中华人民共和国法律。</string>
+
+    <!-- 隐私政策详细 -->
+    <string name="str_privacy_section2">2.1 我们仅将收集的信息用于提供和改进我们的服务。</string>
+    <string name="str_privacy_section3">3.1 本地存储：您的笔记数据存储在手机本地，仅您本人可以访问。</string>
+    <string name="str_privacy_section4">4.1 我们采用 HTTPS 加密传输保护您的数据安全。</string>
+    <string name="str_privacy_section5">5.1 除以下情况外，我们不会与任何第三方共享您的个人信息：</string>
+    <string name="str_privacy_section6">6.1 访问权：您可以随时查看您的笔记数据。</string>
+    <string name="str_privacy_section7">7.1 我们非常重视未成年人的个人信息保护。</string>
+    <string name="str_privacy_section8">8.1 我们可能会适时更新本隐私政策。</string>
+    <string name="str_privacy_contact">如您对本隐私政策有任何疑问，欢迎通过应用内反馈功能联系我们。</string>
+
+    <!-- 功能指南 -->
+    <string name="str_feature_tips">1. 点击右下角 + 创建新笔记\n2. 点击笔记查看/编辑内容\n3. 长按笔记进入批量管理\n4. 点击右上角菜单使用更多功能\n5. 在设置中切换主题模式</string>
+
+    <!-- 其他 -->
+    <string name="str_create_account">创建新账户</string>
+    <string name="str_register_subtitle">注册以开始使用云同步</string>
+    <string name="str_register">注册</string>
+    <string name="str_has_account">已有账户？</string>
+    <string name="str_register_agree">注册即表示您同意我们的</string>
+    <string name="str_welcome_back">欢迎回来</string>
+    <string name="str_login_subtitle2">登录账户以同步笔记</string>
+    <string name="str_login_btn">登录</string>
+    <string name="str_no_account">还没有账户？</string>
+    <string name="str_login_agree">登录即表示您同意我们的</string>
+    <string name="str_applied">已应用</string>
+    <string name="str_apply_theme">应用此主题</string>
+    <string name="str_download">下载</string>
+    <string name="str_like">点赞</string>
+    <string name="str_theme_detail">主题详情</string>
+    <string name="str_upload_rules_line1">1. 上传的主题需要经过审核才能显示</string>
+    <string name="str_upload_rules_line2">2. 请确保主题名称和描述健康向上</string>
+    <string name="str_upload_rules_line3">3. 禁止上传侵犯他人权益的主题</string>
+    <string name="str_upload_rules_line4">4. 每个 APEX 用户最多可上传 10 个主题</string>
+    <string name="str_font_size_picker_hint">提示：请选择预设颜色，或手动输入 HEX 值</string>
+
+    <!-- 缺失的字符串 -->
+    <string name="str_privacy_info_collection">1. 信息收集</string>
+    <string name="str_privacy_info_usage">2. 信息使用</string>
+    <string name="str_privacy_info_storage">3. 信息存储</string>
+    <string name="str_privacy_info_security">4. 信息安全</string>
+    <string name="str_privacy_info_sharing">5. 信息共享</string>
+    <string name="str_privacy_your_rights">6. 您的权利</string>
+    <string name="str_privacy_minors">7. 未成年人保护</string>
+    <string name="str_privacy_updates">8. 政策更新</string>
+    <string name="str_privacy_contact_us">9. 联系我们</string>
+    <string name="str_privacy_update_date">更新日期：2026 年 4 月 11 日</string>
+
+    <string name="str_ua_service">1. 服务说明</string>
+    <string name="str_ua_registration">2. 用户注册与登录</string>
+    <string name="str_ua_behavior">3. 用户行为规范</string>
+    <string name="str_ua_ip">4. 知识产权</string>
+    <string name="str_ua_disclaimer">5. 免责声明</string>
+    <string name="str_ua_changes">6. 协议变更</string>
+    <string name="str_ua_other">7. 其他</string>
+
+    <string name="str_core_features">核心功能</string>
+    <string name="str_batch_manage_guide">批量管理</string>
+    <string name="str_search_guide">搜索功能</string>
+    <string name="str_theme_guide">主题设置</string>
+    <string name="str_security_guide">数据安全</string>
+
+    <string name="str_login_failed">登录失败</string>
+    <string name="str_register_failed">注册失败</string>
+    <string name="str_fill_email_password">请输入邮箱和密码</string>
+    <string name="str_fill_email_alt">请输入邮箱</string>
+    <string name="str_register_account">注册账户</string>
+
+    <string name="str_login_page_title">登录</string>
+    <string name="str_register_page_title">注册账户</string>
+    <string name="str_user_agreement_link">用户协议</string>
+    <string name="str_privacy_policy_link">隐私政策</string>
+
+    <string name="str_primary_color">主色调</string>
+    <string name="str_background_color">背景色</string>
+    <string name="str_surface_color">卡片/表面色</string>
+    <string name="str_default">系统默认</string>
+    <string name="str_serif">衬线体</string>
+    <string name="str_monospace">等宽字体</string>
+
+    <string name="str_official_theme_store_title">官方主题商店</string>
+    <string name="str_share_theme_title">分享主题</string>
+    <string name="str_input_theme_name">请输入主题名称</string>
+    <string name="str_please_login_first">请先登录</string>
+    <string name="str_upload_limit_reached">您已上传了 10 个主题，达到上限</string>
+    <string name="str_upload_success_community">主题上传成功！\n审核通过后将显示在社区主题中</string>
+    <string name="str_upload_failed_retry">上传失败，请检查网络连接或稍后重试</string>
+
+
+</resources>

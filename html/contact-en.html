@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Simple Notes</title>
+    <style>
+        :root {
+            --primary: #FF8C42; --primary-dark: #E07535; --secondary: #FF6B6B;
+            --text-dark: #2D2D2D; --text-medium: #5A5A5A; --text-light: #8A8A8A;
+            --bg-white: #FFFFFF; --bg-warm: #FFF9F5; --bg-soft: #FFF0E6;
+            --shadow-sm: 0 2px 8px rgba(255, 140, 66, 0.1); --shadow-md: 0 8px 32px rgba(255, 140, 66, 0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark); background: var(--bg-warm); line-height: 1.6;
+        }
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1rem 2rem; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px); box-shadow: var(--shadow-sm);
+        }
+        .nav-content {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-dark); }
+        .nav-logo-icon {
+            width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem;
+        }
+        .nav-logo-text { font-size: 1.25rem; font-weight: 700; }
+        .nav-back { text-decoration: none; color: var(--text-medium); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+        .nav-back:hover { color: var(--primary); }
+        .page-content { max-width: 800px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+        .page-title {
+            font-size: 2rem; font-weight: 800; margin-bottom: 1rem; text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .page-subtitle { text-align: center; color: var(--text-medium); margin-bottom: 3rem; }
+        .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .contact-card {
+            background: var(--bg-white); border-radius: 16px; padding: 2rem;
+            box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .contact-icon {
+            width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.5rem; margin-bottom: 1rem;
+        }
+        .contact-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .contact-desc { color: var(--text-medium); font-size: 0.95rem; margin-bottom: 1rem; }
+        .contact-value { color: var(--primary); font-weight: 600; }
+        .footer { background: var(--text-dark); color: rgba(255, 255, 255, 0.7); padding: 3rem 2rem; text-align: center; margin-top: 4rem; }
+        .footer a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s; }
+        .footer a:hover { color: var(--primary); }
+        @media (max-width: 600px) { .page-content { padding: 6rem 1.5rem 3rem; } .page-title { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="./scribe-en.html" class="nav-logo">
+                <div class="nav-logo-icon">&#9998;</div>
+                <span class="nav-logo-text">Simple Notes</span>
+            </a>
+            <a href="./scribe-en.html" class="nav-back">&larr; Back to Home</a>
+        </div>
+    </nav>
+    <div class="page-content">
+        <h1 class="page-title">Contact Us</h1>
+        <p class="page-subtitle">We value your feedback. Feel free to reach out through any of the following channels</p>
+        <div class="contact-cards">
+            <div class="contact-card">
+                <div class="contact-icon">&#128231;</div>
+                <h3 class="contact-title">Email</h3>
+                <p class="contact-desc">Send us an email and we'll get back to you as soon as possible</p>
+                <p class="contact-value">amz042hf@outlook.com</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">&#128222;</div>
+                <h3 class="contact-title">In-App Feedback</h3>
+                <p class="contact-desc">Tap "Feedback" in Settings to submit your comments</p>
+                <p class="contact-value">Open Simple Notes > Settings > Feedback</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">&#128197;</div>
+                <h3 class="contact-title">Business Hours</h3>
+                <p class="contact-desc">Our working hours</p>
+                <p class="contact-value">Suterday - Sunday9:00 AM - 6:00 PM</p>
+                <p class="contact-desc">We use a batch email processing system. All emails are reviewed and replied to on Saturdays and Sundays by our specialist team to ensure accuracy and consistency. Messages received on weekdays will be addressed on the weekend. Thank you for your understanding!</p>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2026 Simple Notes. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;"><a href="./scribe-en.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>
