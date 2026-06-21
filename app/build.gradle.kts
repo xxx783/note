@@ -26,7 +26,7 @@ android {
         applicationId = "com.yutie.note"
         minSdk = 24
         targetSdk = 34
-        versionCode = 20260601
+        versionCode = 202606020
         versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

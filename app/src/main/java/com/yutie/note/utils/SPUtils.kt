@@ -38,6 +38,8 @@ class SPUtils private constructor(context: Context) {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
                 )
             } catch (e: Exception) {
+                e.printStackTrace()
+                android.util.Log.e("SPUtils", "Failed to create EncryptedSharedPreferences, falling back to plain text: ${e.message}")
                 context.getSharedPreferences(
                     AppConstants.SP_FILE_NAME,
                     Context.MODE_PRIVATE

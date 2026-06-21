@@ -37,17 +37,18 @@ import org.json.JSONArray
 import kotlin.coroutines.resume
 
 /**
- * 版本数据类
+ * 版本数据类 - 匹配 version.json 格式
  */
 data class VersionInfo(
-    val id: Long = 0,
-    val version: String = "",
-    val updateLog: String = "",
-    val updateTime: String = "",
+    val version: Int = 0,
+    val versionCode: Long = 0,
+    val name: String = "",
+    val date: String = "",
+    val description: String = "",
     val downloadUrl: String = ""
 ) {
     val formattedTime: String
-        get() = updateTime
+        get() = date
 }
 
 /**
@@ -61,13 +62,28 @@ fun CheckUpdateScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     
-    // 当前版本
+    // 当前版本名称
     val currentVersion = remember {
         try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             packageInfo.versionName ?: "1.0.0"
         } catch (e: Exception) {
             "1.0.0"
+        }
+    }
+    
+    // 当前版本代码（用于版本比较，数字越大版本越新）
+    val currentVersionCode = remember {
+        try {
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toLong()
+            }
+        } catch (e: Exception) {
+            1L
         }
     }
     
@@ -81,16 +97,18 @@ fun CheckUpdateScreen(
     // 加载版本信息
     LaunchedEffect(Unit) {
         loadVersions { versionList ->
-            versions = versionList
+            // 按 versionCode 字段降序排序，确保版本号最大的在最前面
+            val sortedVersions = versionList.sortedByDescending { it.versionCode }
+            versions = sortedVersions
             isLoading = false
             
-            // 找到最新版本
-            if (versionList.isNotEmpty()) {
-                val latest = versionList[0] // 已经是按 ID 倒序排列
+            // 找到最新版本（versionCode 最大的）
+            if (sortedVersions.isNotEmpty()) {
+                val latest = sortedVersions[0]
                 latestVersion = latest
                 
-                // 比较版本号
-                hasUpdate = compareVersions(latest.version, currentVersion) > 0
+                // 比较版本号（使用 versionCode 字段，数字越大版本越新）
+                hasUpdate = latest.versionCode > currentVersionCode
             }
         }
     }
@@ -163,11 +181,13 @@ fun CheckUpdateScreen(
                             isChecking = true
                             scope.launch {
                                 loadVersions { versionList ->
-                                    versions = versionList
-                                    if (versionList.isNotEmpty()) {
-                                        val latest = versionList[0]
+                                    // 按 versionCode 字段降序排序，确保版本号最大的在最前面
+                                    val sortedVersions = versionList.sortedByDescending { it.versionCode }
+                                    versions = sortedVersions
+                                    if (sortedVersions.isNotEmpty()) {
+                                        val latest = sortedVersions[0]
                                         latestVersion = latest
-                                        hasUpdate = compareVersions(latest.version, currentVersion) > 0
+                                        hasUpdate = latest.versionCode > currentVersionCode
                                     }
                                     isChecking = false
                                 }
@@ -239,7 +259,7 @@ fun CheckUpdateScreen(
                                         )
                                         if (hasUpdate) {
                                             Text(
-                                                text = context.getString(R.string.str_latest_version_hint) + latestVersion!!.version,
+                                                text = context.getString(R.string.str_latest_version_hint) + latestVersion!!.name,
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                                             )
@@ -265,7 +285,7 @@ fun CheckUpdateScreen(
                     items(versions) { version ->
                         VersionCard(
                             version = version,
-                            isLatest = version.id == latestVersion?.id,
+                            isLatest = version.versionCode == latestVersion?.versionCode,
                             onDownloadClick = {
                                 if (version.downloadUrl.isNotEmpty() && version.downloadUrl.startsWith("http")) {
                                     try {
@@ -362,7 +382,7 @@ fun VersionCard(
                         Spacer(modifier = Modifier.width(8.dp))
                     }
                     Text(
-                        text = context.getString(R.string.str_version_label) + " ${version.version}",
+                        text = context.getString(R.string.str_version_label) + " ${version.name}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -394,7 +414,7 @@ fun VersionCard(
                 ) {
                     Column {
                         // 更新日志
-                        if (version.updateLog.isNotEmpty()) {
+                        if (version.description.isNotEmpty()) {
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
                                 text = context.getString(R.string.str_update_content),
@@ -404,7 +424,7 @@ fun VersionCard(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = version.updateLog,
+                                text = version.description,
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     lineHeight = 24.sp,
                                     color = MaterialTheme.colorScheme.onSurface
@@ -412,8 +432,8 @@ fun VersionCard(
                             )
                         }
                         
-                        // 下载按钮
-                        if (version.downloadUrl.isNotEmpty()) {
+                        // 下载按钮（只有最新版本才显示，避免降级安装）
+                        if (isLatest && version.downloadUrl.isNotEmpty()) {
                             Spacer(modifier = Modifier.height(12.dp))
                             OutlinedButton(
                                 onClick = {
@@ -453,8 +473,11 @@ fun VersionCard(
  * @return >0 表示 v1 > v2, <0 表示 v1 < v2, =0 表示相等
  */
 fun compareVersions(v1: String, v2: String): Int {
-    val parts1 = v1.split(".").map { it.toIntOrNull() ?: 0 }
-    val parts2 = v2.split(".").map { it.toIntOrNull() ?: 0 }
+    val cleanV1 = v1.replace("[^0-9.]".toRegex(), "")
+    val cleanV2 = v2.replace("[^0-9.]".toRegex(), "")
+    
+    val parts1 = cleanV1.split(".").map { it.toIntOrNull() ?: 0 }
+    val parts2 = cleanV2.split(".").map { it.toIntOrNull() ?: 0 }
     
     val maxLength = maxOf(parts1.size, parts2.size)
     
@@ -489,22 +512,10 @@ private suspend fun loadVersions(
         println("是否为内测用户：$isBetaUser")
     }
     
-    // 第二步：根据内测状态查询版本表
-    val url = "${SupabaseClient.SUPABASE_URL}/rest/v1/version"
-    
-    // 构建查询参数：如果不是内测用户，只查询 is_beta = false 或 null 的版本
-    val queryParams = if (!isBetaUser) {
-        // 非内测用户：查询 is_beta = false 或 is_beta = null 的版本
-        "?or=(is_beta.eq.false,is_beta.is.null)"
-    } else {
-        // 内测用户：查询所有版本（包括 is_beta = true 的版本）
-        ""
-    }
-    
-    val fullUrl = url + queryParams
+    // 从静态 JSON 文件获取版本信息
+    val fullUrl = "https://up.mcplay123.dpdns.org/version.json"
     
     println("查询 URL: $fullUrl")
-    println("内测用户：$isBetaUser")
     
     val request = okhttp3.Request.Builder()
         .url(fullUrl)
@@ -542,14 +553,15 @@ private suspend fun loadVersions(
                     for (i in 0 until jsonArray.length()) {
                         val json = jsonArray.getJSONObject(i)
                         val versionInfo = VersionInfo(
-                            id = json.optLong("id", 0),
-                            version = json.optString("version", "").trim(),
-                            updateLog = json.optString("jl", "").trim(),
-                            updateTime = json.optString("update_time", "").trim(),
-                            downloadUrl = json.optString("download_url", "").trim()
+                            version = json.optInt("version", 0),
+                            versionCode = json.optLong("versioncode", 0),
+                            name = json.optString("name", "").trim(),
+                            date = json.optString("date", "").trim(),
+                            description = json.optString("description", "").trim(),
+                            downloadUrl = json.optString("downloadUrl", "").trim()
                         )
                         list.add(versionInfo)
-                        println("版本 $i: ${versionInfo.version}")
+                        println("版本 $i: ${versionInfo.name}")
                     }
                     
                     onLoadComplete(list)
@@ -568,10 +580,10 @@ private suspend fun loadVersions(
         println("=== 使用备用下载链接 ===")
         val fallbackList = listOf(
             VersionInfo(
-                id = 999L,
-                version = "3.0",
-                updateLog = "• 添加了 AI 功能\n• 修复了一些已知问题",
-                updateTime = "17:08:17",
+                version = 3,
+                name = "v2.0",
+                date = "2026-06-20",
+                description = "【新增功能】\n• 新增 AI 工具箱功能\n• 新增 Markdown 编辑器\n• 新增分屏实时预览\n\n【安全加固】\n• 加密算法升级为 AES/GCM\n• 敏感数据加密存储\n• 密码加盐哈希保护\n\n【问题修复】\n• 修复 Markdown 工具栏光标问题\n• 修复 Markdown 换行显示问题\n• 修复检查更新下载问题",
                 downloadUrl = "https://up.mcplay123.dpdns.org/简约笔记 2.0.apk"
             )
         )

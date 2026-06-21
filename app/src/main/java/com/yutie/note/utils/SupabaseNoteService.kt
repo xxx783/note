@@ -17,7 +17,7 @@ object SupabaseNoteService {
     private const val SUPABASE_URL = "https://hgmpejfrhfiitpmyoieq.supabase.co"
     private const val SUPABASE_ANON_KEY = "sb_publishable_tYv8QXhk3RXZ2SW_5itwIw_sZmbiC3m"
     
-    private val client = OkHttpClient()
+    private val client get() = SupabaseClient.client
     private val mediaType = "application/json; charset=utf-8".toMediaType()
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     

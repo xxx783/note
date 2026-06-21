@@ -179,19 +179,29 @@ class AIService {
     }
     
     /**
-     * 简单的聊天方法
+     * 简单的聊天方法（带系统提示词）
      */
-    suspend fun chat(model: AIModel, message: String): Result<String> {
+    suspend fun chat(
+        model: AIModel,
+        message: String,
+        systemPrompt: String? = null
+    ): Result<String> {
         if (apiKey == null) {
             return Result.failure(Exception("未初始化 AI 服务"))
         }
-        
+
         return suspendCancellableCoroutine { continuation ->
             val url = "$apiBaseUrl/chat/completions"
-            
+
             val requestBody = JSONObject().apply {
                 put("model", model.id)
                 put("messages", JSONArray().apply {
+                    if (!systemPrompt.isNullOrBlank()) {
+                        put(JSONObject().apply {
+                            put("role", "system")
+                            put("content", systemPrompt)
+                        })
+                    }
                     put(JSONObject().apply {
                         put("role", "user")
                         put("content", message)

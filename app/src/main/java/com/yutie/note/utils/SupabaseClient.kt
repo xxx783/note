@@ -13,9 +13,6 @@ import java.io.IOException
 import java.security.cert.Certificate
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
 
 /**
  * Supabase API 工具类
@@ -82,55 +79,10 @@ object SupabaseClient {
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(sslPinningInterceptor())
             .build()
     }
     
-    /**
-     * SSL Pinning 拦截器
-     * 验证服务器证书指纹
-     */
-    private fun sslPinningInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            val request = chain.request()
-            val response = chain.proceed(request)
-            
-            val certs = response.handshake?.peerCertificates
-            if (certs != null && !verifyCertificatePins(certs)) {
-                throw SecurityException("SSL certificate pinning failed")
-            }
-            
-            response
-        }
-    }
-    
-    /**
-     * 验证证书指纹
-     */
-    private fun verifyCertificatePins(certificates: List<Certificate>): Boolean {
-        val allowedFingerprints = listOf(
-            "SHA256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-        )
-        
-        for (cert in certificates) {
-            if (cert is X509Certificate) {
-                val fingerprint = getCertificateFingerprint(cert)
-                if (allowedFingerprints.contains(fingerprint)) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-    
-    /**
-     * 获取证书 SHA256 指纹
-     */
-    private fun getCertificateFingerprint(cert: X509Certificate): String {
-        val digest = java.security.MessageDigest.getInstance("SHA-256")
-        val encoded = digest.digest(cert.encoded)
-        return "SHA256:" + android.util.Base64.encodeToString(encoded, android.util.Base64.DEFAULT).trim()
-    }
+
     
     fun login(email: String, password: String, callback: (AuthResponse) -> Unit) {
         val url = "$SUPABASE_URL/auth/v1/token?grant_type=password"

@@ -428,16 +428,6 @@ fun SettingsScreen(
             
             if (!isLoading && isApexUser) {
                  SettingsItem(
-                     icon = Icons.Default.AutoFixHigh,
-                     title = "AI 工具箱",
-                     subtitle = "智能润色、总结、翻译、语法检查",
-                     selected = false,
-                     onClick = {
-                         navController.navigate("ai_toolbox")
-                     }
-                 )
-                 
-                 SettingsItem(
                      icon = Icons.Default.People,
                      title = stringResource(R.string.str_community_themes),
                      subtitle = stringResource(R.string.str_community_themes_subtitle),

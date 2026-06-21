@@ -1,37 +1,23 @@
 package com.yutie.note.ui
 
-import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.yutie.note.R
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yutie.note.ui.custom.CustomTitleBar
 import com.yutie.note.ui.editor.MarkdownSplitScreen
 import com.yutie.note.ui.editor.MarkdownToolbar
 import com.yutie.note.ui.editor.ViewMode
 import com.yutie.note.ui.viewmodel.NoteEditViewModel
-import io.noties.markwon.Markwon
-import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
-import io.noties.markwon.ext.tables.TablePlugin
-import io.noties.markwon.html.HtmlPlugin
-import io.noties.markwon.linkify.LinkifyPlugin
 
 /**
  * 笔记详情页面 - 支持阅读模式和编辑模式
@@ -125,6 +111,7 @@ fun NoteEditScreen(
                         formatType
                     )
                     viewModel.setContent(newContent)
+                    cursorPosition = newCursorPos
                 })
             }
             

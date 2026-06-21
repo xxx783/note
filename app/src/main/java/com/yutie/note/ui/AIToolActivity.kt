@@ -38,7 +38,7 @@ fun AIToolScreen(
     navController: NavController,
     toolType: String,
     toolName: String,
-    toolIcon: Int
+    toolIcon: Int = 0
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
@@ -281,4 +281,43 @@ fun AIToolScreen(
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AIModelSelectorDialog(
+    currentModel: AIModel?,
+    onModelSelected: (AIModel) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val modelList = AIModelConfig.models
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("选择模型") },
+        text = {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                modelList.forEach { model ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onModelSelected(model) }
+                            .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = currentModel?.id == model.id,
+                            onClick = { onModelSelected(model) }
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = model.name)
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("关闭")
+            }
+        }
+    )
 }

@@ -25,6 +25,7 @@ import com.yutie.note.ui.theme.LocalNoteTheme
 import com.yutie.note.ui.UserAgreementScreen
 import com.yutie.note.ui.PrivacyPolicyScreen
 import com.yutie.note.ui.AIToolboxScreen
+import com.yutie.note.ui.AIToolScreen
 import java.util.Locale
 
 /**
@@ -646,6 +647,82 @@ class MainActivity : ComponentActivity() {
                             }
                         ) {
                             LanguageSettingsScreen(navController = navController)
+                        }
+                        
+                        // AI 工具箱页面（APEX 功能）
+                        composable(
+                            route = "ai_toolbox",
+                            enterTransition = {
+                                slideInHorizontally(
+                                    initialOffsetX = { it },
+                                    animationSpec = tween(500)
+                                ) + fadeIn(animationSpec = tween(500))
+                            },
+                            exitTransition = {
+                                slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(500)
+                                ) + fadeOut(animationSpec = tween(500))
+                            },
+                            popEnterTransition = {
+                                slideInHorizontally(
+                                    initialOffsetX = { -it },
+                                    animationSpec = tween(500)
+                                ) + fadeIn(animationSpec = tween(500))
+                            },
+                            popExitTransition = {
+                                slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(500)
+                                ) + fadeOut(animationSpec = tween(500))
+                            }
+                        ) {
+                            AIToolboxScreen(navController = navController)
+                        }
+                        
+                        // AI 工具详情页面
+                        composable(
+                            route = "ai_tool/{toolType}/{toolName}",
+                            arguments = listOf(
+                                navArgument("toolType") {
+                                    type = androidx.navigation.NavType.StringType
+                                },
+                                navArgument("toolName") {
+                                    type = androidx.navigation.NavType.StringType
+                                }
+                            ),
+                            enterTransition = {
+                                slideInHorizontally(
+                                    initialOffsetX = { it },
+                                    animationSpec = tween(500)
+                                ) + fadeIn(animationSpec = tween(500))
+                            },
+                            exitTransition = {
+                                slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(500)
+                                ) + fadeOut(animationSpec = tween(500))
+                            },
+                            popEnterTransition = {
+                                slideInHorizontally(
+                                    initialOffsetX = { -it },
+                                    animationSpec = tween(500)
+                                ) + fadeIn(animationSpec = tween(500))
+                            },
+                            popExitTransition = {
+                                slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                    animationSpec = tween(500)
+                                ) + fadeOut(animationSpec = tween(500))
+                            }
+                        ) { backStackEntry ->
+                            val toolType = backStackEntry.arguments?.getString("toolType") ?: ""
+                            val toolName = backStackEntry.arguments?.getString("toolName") ?: ""
+                            AIToolScreen(
+                                navController = navController,
+                                toolType = toolType,
+                                toolName = toolName
+                            )
                         }
                     }
                 }
